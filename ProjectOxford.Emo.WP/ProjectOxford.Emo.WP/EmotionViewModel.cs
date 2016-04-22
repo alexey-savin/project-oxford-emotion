@@ -6,10 +6,8 @@ using System.Linq;
 
 namespace ProjectOxford.Emo.WP
 {
-    class EmotionViewModel : INotifyPropertyChanged
+    class EmotionViewModel : NotifyPropertyChangedBase
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-
         private Emotion _emotion = null;
         private ObservableCollection<EmotionScoreItem> _top3Emotion = new ObservableCollection<EmotionScoreItem>();
 
@@ -19,17 +17,11 @@ namespace ProjectOxford.Emo.WP
             set
             {
                 _emotion = value;
-                OnPropertyChanged("Emotion");
+                OnPropertyChanged();
             }
         }
 
-        public ObservableCollection<EmotionScoreItem> Top3Emotion
-        {
-            get
-            {
-                return _top3Emotion;
-            }
-        }
+        public ObservableCollection<EmotionScoreItem> Top3Emotion => _top3Emotion;
 
         public ObservableCollection<EmotionScoreItem> Top3EmotionTest
         {
@@ -81,14 +73,6 @@ namespace ProjectOxford.Emo.WP
                 {
                     _top3Emotion.Add(item);
                 }
-            }
-        }
-
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
     }

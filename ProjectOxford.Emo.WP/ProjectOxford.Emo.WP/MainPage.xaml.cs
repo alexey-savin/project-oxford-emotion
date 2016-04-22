@@ -89,12 +89,13 @@ namespace ProjectOxford.Emo.WP
             InMemoryRandomAccessStream stream = new InMemoryRandomAccessStream();
             await _mediaCapture.CapturePhotoToStreamAsync(ImageEncodingProperties.CreateJpeg(), stream);
 
-            //rotate
+            // rotation ->
             BitmapDecoder dec = await BitmapDecoder.CreateAsync(stream);
             InMemoryRandomAccessStream newStream = new InMemoryRandomAccessStream();
             BitmapEncoder enc = await BitmapEncoder.CreateForTranscodingAsync(newStream, dec);
             enc.BitmapTransform.Rotation = BitmapRotation.Clockwise270Degrees;
             await enc.FlushAsync();
+            // rotation <-
 
             newStream.Seek(0); // текущую позицию потока устанавливаем в 0
             BitmapImage bitmap = new BitmapImage();
@@ -162,12 +163,6 @@ namespace ProjectOxford.Emo.WP
             ViewModel.RefreshTop3Emotion();
         }
 
-        private EmotionViewModel ViewModel
-        {
-            get
-            {
-                return DataContext as EmotionViewModel;
-            }
-        }
+        private EmotionViewModel ViewModel => DataContext as EmotionViewModel;
     }
 }
